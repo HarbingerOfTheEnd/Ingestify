@@ -7,27 +7,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model EmailIngestionConfig {
-  id             String   @id @default(cuid())
-  emailAddress   String   @unique
-  connectionType String
+model EmailConfig {
+  id             String          @id @default(uuid())
+  emailAddress   String          @unique
+  connectionType String // "IMAP", "POP3", "Gmail API", "Outlook"
   host           String?
   port           Int?
-  username       String
-  password       String
-  createdAt      DateTime @default(now())
-
-  PDFs PDFMetadata[]
+  username       String?
+  password       String?
+  accessToken    String? // For OAuth-based connections (Gmail API, Outlook)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  EmailMetadata  EmailMetadata[]
 }
 
-model PDFMetadata {
-  id                 String   @id @default(cuid())
+model EmailMetadata {
+  id                 String   @id @default(uuid())
   emailConfigId      String
   fromAddress        String
   dateReceived       DateTime
   subject            String
   attachmentFileName String
-  storedFilePath     String
+  filePath           String
 
-  emailConfig EmailIngestionConfig @relation(fields: [emailConfigId], references: [id], onDelete: Cascade)
+  emailConfig EmailConfig @relation(fields: [emailConfigId], references: [id], onDelete: Cascade)
 }
