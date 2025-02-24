@@ -8,17 +8,16 @@ datasource db {
 }
 
 model EmailConfig {
-  id             String          @id @default(uuid())
-  emailAddress   String          @unique
-  connectionType String // "IMAP", "POP3", "Gmail API", "Outlook"
-  host           String?
-  port           Int?
-  username       String?
-  password       String?
-  accessToken    String? // For OAuth-based connections (Gmail API, Outlook)
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  EmailMetadata  EmailMetadata[]
+  id            String          @id @default(uuid())
+  emailAddress  String          @unique
+  host          String?
+  port          Int?
+  username      String?
+  password      String?
+  accessToken   String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  EmailMetadata EmailMetadata[]
 }
 
 model EmailMetadata {
