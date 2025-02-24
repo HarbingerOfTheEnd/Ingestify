@@ -16,8 +16,8 @@
         "imap": "^0.8.19",
         "mailparser": "^3.7.2",
         "next": "15.1.7",
-        "node-pop3": "^0.9.0",
         "nodemailer": "^6.10.0",
+        "poplib": "^0.1.7",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "react-hot-toast": "^2.5.2"
