@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Email & PDF Ingestion with Simple UI
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This is a Next.js application that allows users to configure email accounts via IMAP for automatic retrieval of emails with PDF attachments. The application downloads PDFs to a local folder (`./pdfs/`) and stores metadata in a PostgreSQL database using Prisma.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+
+- Configure email accounts using IMAP.
+- Automatically fetch emails containing PDF attachments.
+- Download PDFs to a local directory (`./pdfs/`).
+- Store metadata (sender, subject, date, filename) in PostgreSQL.
+- Simple UI for managing email configurations.
+
+## Tech Stack
+
+- **Frontend**: Next.js (React, TypeScript, TailwindCSS)
+- **Backend**: Bun, Next.js API routes
+- **Database**: PostgreSQL with Prisma ORM
+- **Email Retrieval**: IMAP
+
+## Installation & Setup
+
+### 1. Clone the Repository
+
+```sh
+git clone https://github.com/HarbingerOfTheEnd/Ingestify.git
+cd Ingestify/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+bun i
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Set Up Environment Variables
 
-## Learn More
+Create a `.env.local` file in the project root with the following:
 
-To learn more about Next.js, take a look at the following resources:
+```ini
+DATABASE_URL=postgresql://user:password@localhost:5432/ingestify?schema=public
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Set Up the Database
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Upload Prisma models to database:
 
-## Deploy on Vercel
+```sh
+bunx prisma db push
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 5. Start the Development Server
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```sh
+bun --bun dev
+```
+
+Access the UI at: [http://localhost:3000](http://localhost:3000)
+
+## Usage
+
+### 1. Configure an IMAP Email Account
+
+- Enter your IMAP server details, email, and password in the UI.
+- Save the configuration to start fetching emails.
+
+### 2. Check inbox
+
+- Click `check inbox` button
+- This will automatically load any new emails since the start of the server.
+- After confirming the existence of PDFs in a mail, it will automatically download it.
+
+### 3. Verify Downloads
+
+- PDFs are saved in `./pdfs/`
+- Metadata is stored in PostgreSQL.
+
+## API Endpoints
+
+### **Email Configuration Endpoints**
+
+- `POST /api/email-ingestify/config` → Save IMAP email configuration.
+- `GET /api/email-ingestify/config` → Retrieve stored email configurations.
+
+### **Email Fetching**
+
+- `GET /api/email-ingestify/fetch` → Trigger email fetching.
+
+## Error Handling
+
+- Logs errors for invalid credentials.
+- Skips corrupt attachments but continues processing.
+
+## Future Enhancements
+
+- Add UI for manual email fetching.
+- Encrypt stored credentials for better security.
+- Implement background email polling.
+
+## License
+
+MIT License
+
+## Author
+
+R Sai Kumar
