@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Roboto_Mono } from 'next/font/google';
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
 
@@ -15,10 +15,10 @@ export const metadata: Metadata = {
 
 type Props = Readonly<PropsWithChildren<Record<string, never>>>;
 
-export default function RootLayout({ children }: Props) {
+export default function RootLayout({ children }: Props): ReactNode {
     return (
         <html lang="en">
-            <body className={`${robotoMono} antialiased`}>
+            <body className={`${robotoMono.className} antialiased`}>
                 {children}
                 <Toaster />
             </body>
