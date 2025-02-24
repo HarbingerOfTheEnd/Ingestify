@@ -18,8 +18,10 @@ type Props = Readonly<PropsWithChildren<Record<string, never>>>;
 export default function RootLayout({ children }: Props) {
     return (
         <html lang="en">
-            <body className={`${robotoMono} antialiased`}>{children}</body>
-            <Toaster />
+            <body className={`${robotoMono} antialiased`}>
+                {children}
+                <Toaster />
+            </body>
         </html>
     );
 }
