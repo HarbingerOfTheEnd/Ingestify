@@ -3,7 +3,7 @@ import { Roboto_Mono } from 'next/font/google';
 import './globals.css';
 
 const robotoMono = Roboto_Mono({
-    preload: true,
+    subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
