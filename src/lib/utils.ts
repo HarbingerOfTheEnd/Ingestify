@@ -1,7 +1,7 @@
 import type { EmailConfig } from '@prisma/client';
 import Imap from 'imap';
 import { type ParsedMail, simpleParser } from 'mailparser';
-import { writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import prisma from './prisma';
 
@@ -10,6 +10,9 @@ async function downloadPDF(emailConfigId: EmailConfig['id'], mail: ParsedMail) {
 
     for (const attachment of attachments) {
         if (attachment.contentType === 'application/pdf') {
+            if (!existsSync(join(process.cwd(), 'pdfs')))
+                mkdirSync(join(process.cwd(), 'pdfs'));
+
             const filePath = join(
                 process.cwd(),
                 'pdfs',
